@@ -1,291 +1,132 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión Agronómica - Ventas y Cuentas</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body { background-color: #f8f9fa; }
-        .navbar { background-color: #28a745; }
-        .card { margin-bottom: 20px; }
-        .table th { background-color: #e9ecef; }
-        .profit { color: green; }
-        .loss { color: red; }
-    </style>
+<meta charset="UTF-8">
+<title>Frutas Don Antonio - Pedidos</title>
+
+<style>
+    body{
+        font-family: 'Arial', sans-serif;
+        background:#f5f5f5;
+        margin:0;
+        padding:0;
+        color:#222;
+    }
+    header{
+        background:#000;
+        color:white;
+        padding:20px;
+        text-align:center;
+        font-size:26px;
+        font-weight:bold;
+        letter-spacing:1px;
+    }
+    .container{
+        width:90%;
+        max-width:800px;
+        background:white;
+        margin:30px auto;
+        padding:25px;
+        border-radius:8px;
+        box-shadow:0 0 10px rgba(0,0,0,0.08);
+    }
+    input,select{
+        width:100%;
+        padding:10px;
+        margin-top:10px;
+        border:1px solid #ccc;
+        border-radius:5px;
+        font-size:16px;
+    }
+    button{
+        width:100%;
+        margin-top:15px;
+        padding:12px;
+        font-size:16px;
+        border:none;
+        background:#000;
+        color:white;
+        border-radius:5px;
+        cursor:pointer;
+        transition:.2s;
+    }
+    button:hover{ background:#333; }
+
+    table{
+        width:100%;
+        border-collapse:collapse;
+        margin-top:25px;
+    }
+    th,td{
+        border-bottom:1px solid #ddd;
+        padding:10px;
+        text-align:left;
+    }
+    th{ background:#fafafa; font-weight:bold; }
+
+    .title{
+        font-size:22px;
+        margin-bottom:15px;
+        font-weight:600;
+        text-align:center;
+    }
+</style>
+
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">Empresa Agronómica</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#dashboard">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#carga">Carga de Productos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#pagos">Pagos y Deudas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#graficos">Gráficos</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
-    <div class="container mt-4">
-        <h1 class="text-center mb-4">Sistema de Gestión de Ventas Agronómicas</h1>
+<header>Frutas Don Antonio - Pedidos</header>
 
-        <!-- Dashboard -->
-        <section id="dashboard" class="mb-5">
-            <h2>Dashboard</h2>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Total Ganancias</h5>
-                            <p class="card-text" id="totalProfit">$0</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Deudas Pendientes</h5>
-                            <p class="card-text" id="pendingDebts">$0</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Productos Registrados</h5>
-                            <p class="card-text" id="totalProducts">0</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+<div class="container">
 
-        <!-- Carga de Productos -->
-        <section id="carga" class="mb-5">
-            <h2>Carga de Productos y Ventas</h2>
-            <form id="productForm">
-                <div class="row">
-                    <div class="col-md-3">
-                        <label for="product" class="form-label">Producto (Fruta)</label>
-                        <input type="text" class="form-control" id="product" required>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="client" class="form-label">Cliente</label>
-                        <input type="text" class="form-control" id="client" required>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="costPrice" class="form-label">Precio de Costo ($)</label>
-                        <input type="number" class="form-control" id="costPrice" step="0.01" required>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="salePrice" class="form-label">Precio de Venta ($)</label>
-                        <input type="number" class="form-control" id="salePrice" step="0.01" required>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-success mt-3">Registrar Venta</button>
-            </form>
-            <h3 class="mt-4">Historial de Ventas</h3>
-            <table class="table table-striped" id="salesTable">
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Cliente</th>
-                        <th>Costo</th>
-                        <th>Venta</th>
-                        <th>Ganancia</th>
-                        <th>Fecha</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-            <button class="btn btn-primary" onclick="exportToCSV('sales')">Exportar a CSV</button>
-        </section>
+    <div class="title">Cargar nuevo pedido</div>
 
-        <!-- Pagos y Deudas -->
-        <section id="pagos" class="mb-5">
-            <h2>Pagos y Deudas</h2>
-            <form id="debtForm">
-                <div class="row">
-                    <div class="col-md-4">
-                        <label for="debtClient" class="form-label">Cliente/Deudor</label>
-                        <input type="text" class="form-control" id="debtClient" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="debtAmount" class="form-label">Monto de Deuda ($)</label>
-                        <input type="number" class="form-control" id="debtAmount" step="0.01" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="debtType" class="form-label">Tipo</label>
-                        <select class="form-control" id="debtType">
-                            <option value="deuda">Deuda (Por Cobrar)</option>
-                            <option value="pago">Pago (Por Pagar)</option>
-                        </select>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-warning mt-3">Registrar</button>
-            </form>
-            <h3 class="mt-4">Lista de Deudas y Pagos</h3>
-            <table class="table table-striped" id="debtsTable">
-                <thead>
-                    <tr>
-                        <th>Cliente</th>
-                        <th>Monto</th>
-                        <th>Tipo</th>
-                        <th>Estado</th>
-                        <th>Fecha</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-            <button class="btn btn-primary" onclick="exportToCSV('debts')">Exportar a CSV</button>
-        </section>
+    <label>Cliente:</label>
+    <input id="cliente" type="text" placeholder="Nombre del cliente">
 
-        <!-- Gráficos -->
-        <section id="graficos" class="mb-5">
-            <h2>Gráficos de Ventas por Mes</h2>
-            <canvas id="salesChart"></canvas>
-        </section>
-    </div>
+    <label>Producto:</label>
+    <select id="producto">
+        <option value="Ciruela Black Anbar">Ciruela Black Anbar</option>
+        <option value="Durazno">Durazno</option>
+        <option value="Uva Red Globe">Uva Red Globe</option>
+    </select>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Datos almacenados en localStorage
-        let sales = JSON.parse(localStorage.getItem('sales')) || [];
-        let debts = JSON.parse(localStorage.getItem('debts')) || [];
+    <label>Cantidad (cajas):</label>
+    <input id="cantidad" type="number">
 
-        // Función para actualizar dashboard
-        function updateDashboard() {
-            const totalProfit = sales.reduce((sum, s) => sum + (s.salePrice - s.costPrice), 0);
-            const pendingDebts = debts.filter(d => d.status === 'pendiente').reduce((sum, d) => sum + d.amount, 0);
-            document.getElementById('totalProfit').textContent = `$${totalProfit.toFixed(2)}`;
-            document.getElementById('pendingDebts').textContent = `$${pendingDebts.toFixed(2)}`;
-            document.getElementById('totalProducts').textContent = sales.length;
-        }
+    <button onclick="guardar()">Guardar pedido</button>
 
-        // Función para renderizar tabla de ventas
-        function renderSalesTable() {
-            const tbody = document.querySelector('#salesTable tbody');
-            tbody.innerHTML = '';
-            sales.forEach((sale, index) => {
-                const profit = sale.salePrice - sale.costPrice;
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${sale.product}</td>
-                        <td>${sale.client}</td>
-                        <td>$${sale.costPrice}</td>
-                        <td>$${sale.salePrice}</td>
-                        <td class="${profit >= 0 ? 'profit' : 'loss'}">$${profit.toFixed(2)}</td>
-                        <td>${sale.date}</td>
-                    </tr>
-                `;
-            });
-        }
+    <table>
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Producto</th>
+                <th>Cajas</th>
+            </tr>
+        </thead>
+        <tbody id="tabla"></tbody>
+    </table>
 
-        // Función para renderizar tabla de deudas
-        function renderDebtsTable() {
-            const tbody = document.querySelector('#debtsTable tbody');
-            tbody.innerHTML = '';
-            debts.forEach((debt, index) => {
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${debt.client}</td>
-                        <td>$${debt.amount}</td>
-                        <td>${debt.type}</td>
-                        <td>${debt.status}</td>
-                        <td>${debt.date}</td>
-                        <td><button class="btn btn-sm btn-success" onclick="markAsPaid(${index})">Marcar Pagado</button></td>
-                    </tr>
-                `;
-            });
-        }
+</div>
 
-        // Función para marcar deuda como pagada
-        function markAsPaid(index) {
-            debts[index].status = 'pagado';
-            localStorage.setItem('debts', JSON.stringify(debts));
-            renderDebtsTable();
-            updateDashboard();
-        }
+<script>
+function guardar(){
+    let cliente = document.getElementById("cliente").value;
+    let prod = document.getElementById("producto").value;
+    let cant = document.getElementById("cantidad").value;
 
-        // Función para exportar a CSV
-        function exportToCSV(type) {
-            let data = type === 'sales' ? sales : debts;
-            let csv = Object.keys(data[0] || {}).join(',') + '\n';
-            data.forEach(row => {
-                csv += Object.values(row).join(',') + '\n';
-            });
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${type}.csv`;
-            a.click();
-        }
+    if(cliente==="" || cant===""){
+        alert("Completa todos los campos ✔");
+        return;
+    }
 
-        // Función para renderizar gráfico
-        function renderChart() {
-            const ctx = document.getElementById('salesChart').getContext('2d');
-            const monthlySales = {};
-            sales.forEach(sale => {
-                const month = new Date(sale.date).toLocaleString('default', { month: 'long', year: 'numeric' });
-                monthlySales[month] = (monthlySales[month] || 0) + 1; // Conteo de ventas por mes
-            });
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(monthlySales),
-                    datasets: [{
-                        label: 'Ventas por Mes',
-                        data: Object.values(monthlySales),
-                        backgroundColor: 'rgba(40, 167, 69, 0.5)',
-                        borderColor: 'rgba(40, 167, 69, 1)',
-                        borderWidth: 1
-                    }]
-                }
-            });
-        }
+    let fila = `<tr><td>${cliente}</td><td>${prod}</td><td>${cant}</td></tr>`;
+    document.getElementById("tabla").innerHTML += fila;
 
-        // Evento para formulario de productos
-        document.getElementById('productForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const product = document.getElementById('product').value;
-            const client = document.getElementById('client').value;
-            const costPrice = parseFloat(document.getElementById('costPrice').value);
-            const salePrice = parseFloat(document.getElementById('salePrice').value);
-            sales.push({ product, client, costPrice, salePrice, date: new Date().toLocaleDateString() });
-            localStorage.setItem('sales', JSON.stringify(sales));
-            renderSalesTable();
-            updateDashboard();
-            renderChart();
-            this.reset();
-        });
+    document.getElementById("cliente").value = "";
+    document.getElementById("cantidad").value = "";
+}
+</script>
 
-        // Evento para formulario de deudas
-        document.getElementById('debtForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const client = document.getElementById('debtClient').value;
-            const amount = parseFloat(document.getElementById('debtAmount').value);
-            const type = document.getElementById('debtType').value;
-            debts.push({ client, amount, type, status: 'pendiente', date: new Date().toLocaleDateString() });
-            localStorage.setItem('debts', JSON.stringify(debts));
-            renderDebtsTable();
-            updateDashboard();
-            this.reset();
-        });
-
-        // Inicializar
-        renderSalesTable();
-        renderDebtsTable();
-        updateDashboard();
-        renderChart();
-    </script>
 </body>
 </html>
