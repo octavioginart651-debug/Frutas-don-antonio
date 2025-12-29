@@ -1,25 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Cargar Clientes</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Cargar Clientes</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<nav>
+    <a href="index.html">🏠 Inicio</a>
+    <a href="clientes.html">📋 Cargar Clientes</a>
+    <a href="tabla.html">📄 Ver Tabla</a>
+</nav>
+
 <div class="container">
-    <h1>Nuevo Cliente</h1>
+<h1>Nuevo Cliente</h1>
 
-    <form id="clienteForm">
-        <input type="text" placeholder="Nombre del cliente" id="nombre" required>
-        <input type="text" placeholder="Producto" id="producto" required>
-        <input type="number" placeholder="Cantidad" id="cantidad" required>
-        <button type="submit">Guardar</button>
-    </form>
+<form id="clienteForm">
+    <input type="text" id="nombre" placeholder="Nombre del cliente" required>
+    <input type="text" id="producto" placeholder="Producto" required>
+    <input type="number" id="cantidad" placeholder="Cantidad" required>
+    <input type="number" id="costo" placeholder="Costo unitario" required>
+    <input type="number" id="precio" placeholder="Precio unitario" required>
+    <input type="date" id="fecha" required>
 
-    <a class="btn" href="index.html">⬅ Volver</a>
+    <button type="submit">Guardar</button>
+</form>
 </div>
 
 <script src="script.js"></script>
 </body>
 </html>
+
