@@ -1,33 +1,42 @@
 // Guardar cliente
-const clienteForm = document.getElementById("clienteForm");
-if(clienteForm){
-    clienteForm.addEventListener("submit",e=>{
+const form = document.getElementById("clienteForm");
+if(form){
+    form.addEventListener("submit", e=>{
         e.preventDefault();
-        
-        let clientes = JSON.parse(localStorage.getItem("clientes")) || [];
 
-        clientes.push({
-            nombre: document.getElementById("nombre").value,
-            producto: document.getElementById("producto").value,
-            cantidad: document.getElementById("cantidad").value
+        let lista = JSON.parse(localStorage.getItem("clientes")) || [];
+
+        lista.push({
+            nombre: nombre.value,
+            producto: producto.value,
+            cantidad: cantidad.value,
+            costo: costo.value,
+            precio: precio.value,
+            total: cantidad.value * precio.value,
+            fecha: fecha.value
         });
 
-        localStorage.setItem("clientes",JSON.stringify(clientes));
-        alert("Cliente guardado");
-        clienteForm.reset();
+        localStorage.setItem("clientes", JSON.stringify(lista));
+        alert("Cliente guardado correctamente");
+        form.reset();
     });
 }
 
-// Cargar tabla de clientes
+// Mostrar clientes
 const tabla = document.getElementById("tablaClientes");
 if(tabla){
-    let clientes = JSON.parse(localStorage.getItem("clientes")) || [];
-    clientes.forEach(c=>{
-        tabla.innerHTML+=`
+    let lista = JSON.parse(localStorage.getItem("clientes")) || [];
+    lista.forEach(c=>{
+        tabla.innerHTML += `
         <tr>
             <td>${c.nombre}</td>
             <td>${c.producto}</td>
             <td>${c.cantidad}</td>
-        </tr>`;
+            <td>${c.costo}</td>
+            <td>${c.precio}</td>
+            <td>${c.total}</td>
+            <td>${c.fecha}</td>
+        </tr>
+        `;
     });
 }
